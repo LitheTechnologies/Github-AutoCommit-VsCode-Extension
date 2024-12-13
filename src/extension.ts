@@ -22,7 +22,7 @@ async function promptForRepoName() {
 const homeDirectory = process.env.HOME || process.env.USERPROFILE || '';
 const gitCommitPath = path.resolve(homeDirectory, 'your-commit-directory');
 
-// Check if directory exists, if not, create it
+
 if (!fs.existsSync(gitCommitPath)) {
     fs.mkdirSync(gitCommitPath, { recursive: true });
 }
@@ -31,9 +31,9 @@ const git = simpleGit(gitCommitPath);
 
 async function initializeGitRepo() {
     try {
-        // Check if .git directory exists, if not, initialize git
+        
         if (!fs.existsSync(path.join(gitCommitPath, '.git'))) {
-            await git.init(); // Initialize the Git repository
+            await git.init(); 
             vscode.window.showInformationMessage('Git repository initialized.');
         } else {
             vscode.window.showInformationMessage('Git repository already initialized.');
@@ -52,12 +52,12 @@ async function addRemote() {
     const remoteUrl = `https://github.com/${gitRepoName}.git`;
 
     try {
-        // Check if the remote already exists
+    
         const remotes = await git.getRemotes();
         const remoteExists = remotes.some(remote => remote.name === 'origin');
 
         if (!remoteExists) {
-            // Add the remote only if it doesn't exist
+         
             await git.addRemote('origin', remoteUrl);
             vscode.window.showInformationMessage(`Remote added: ${remoteUrl}`);
         } else {
@@ -84,14 +84,14 @@ async function commitAndPushFileToRepo(content: string) {
     fs.writeFileSync(commitFilePath, content);
 
     try {
-        // Pull the latest changes from the remote before committing
+      
         await git.pull('origin', 'main');
         
-        // Commit the changes
+     
         await git.add(commitFilePath).commit(`Auto-commit at ${new Date().toISOString()}`);
         vscode.window.showInformationMessage('File committed successfully!');
         
-        // Push the changes to the remote
+      
         await git.push('origin', 'main');
         vscode.window.showInformationMessage('File pushed to GitHub!');
     } catch (error) {
@@ -111,7 +111,7 @@ function startAutoCommit() {
                 console.error(`Error in auto-commit or push: ${error}`);
             }
         }
-    }, 600000);  // Every 10 minutes
+    }, 600000);  
 }
 
 
@@ -120,13 +120,13 @@ export function activate(context: vscode.ExtensionContext) {
         console.log('Auto-commit command executed');
 
         if (!gitRepoName) {
-            await promptForRepoName(); // Prompt for repository name
+            await promptForRepoName(); 
         }
 
         if (gitRepoName) {
             vscode.window.showInformationMessage(`Repository set to: ${gitRepoName}`);
             vscode.window.showInformationMessage('Auto-commit started!');
-            startAutoCommit(); // Start auto-commit process
+            startAutoCommit(); 
         } else {
             vscode.window.showErrorMessage('Auto-commit cannot start without a repository name!');
         }
