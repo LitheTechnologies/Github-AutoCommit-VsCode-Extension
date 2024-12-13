@@ -18,7 +18,9 @@ The **AutoCommitter** extension for Visual Studio Code automatically commits and
 
 ## Requirements
 
-- **Git**: Ensure you have Git installed on your system. Create a Repository name your-commit-directory in the user path (ex: C:/Users/User/your-commit-directory). Initialize git in the directory and create a main branch .
+- **Git**: Ensure you have Git installed on your system.
+- Create a Repository named "your-commit-directory" in the user path (ex: C:/Users/User/your-commit-directory).
+-  Initialize git in the directory and create a main branch and set it as default.
 - **GitHub**: You need a GitHub account and a repository to commit the changes.
 - **Node.js**: The extension uses Node.js for backend processing.
 
